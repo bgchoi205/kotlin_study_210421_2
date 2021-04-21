@@ -1,3 +1,18 @@
+/*
+명령어
+-------------
+article write
+aa
+asdf
+article write
+qq
+qwer
+article write
+zz
+zxcv
+article list
+
+ */
 
 fun main() {
     println("==프로그램 시작==")
@@ -24,6 +39,11 @@ fun main() {
             println("$id 번 게시물이 등록되었습니다.")
 
             lastId = id
+        }
+        else if(command == "article list"){
+            for(article in articles){
+                println("${article.id} / ${article.title}")
+            }
         }
 
     }
