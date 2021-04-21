@@ -1,3 +1,6 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 /*
 명령어
 -------------
@@ -32,8 +35,9 @@ fun main() {
             val title = readLine()!!.trim()
             print("내용 : ")
             val body = readLine()!!.trim()
+            val regDate = getRegDate()
 
-            val article = Article(id, title, body)
+            val article = Article(id, title, body, regDate)
             articles.add(article)
 
             println("$id 번 게시물이 등록되었습니다.")
@@ -41,8 +45,10 @@ fun main() {
             lastId = id
         }
         else if(command == "article list"){
+            println("번호 / 날짜 / 제목")
             for(article in articles){
-                println("${article.id} / ${article.title}")
+
+                println("${article.id}/ ${article.regDate} / ${article.title}")
             }
         }
 
@@ -55,7 +61,15 @@ fun main() {
 data class Article(
     val id : Int,
     val title : String,
-    val body : String
+    val body : String,
+    val regDate : String
 ){
 
+}
+
+fun getRegDate() : String{
+    var now = LocalDateTime.now()
+
+    var Strnow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH시 mm분 ss초"))
+    return Strnow
 }
