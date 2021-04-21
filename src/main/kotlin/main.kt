@@ -35,9 +35,10 @@ fun main() {
             val title = readLine()!!.trim()
             print("내용 : ")
             val body = readLine()!!.trim()
-            val regDate = getRegDate()
+            val regDate = Util.getRegDate()
+            val updateDate = Util.getRegDate()
 
-            val article = Article(id, title, body, regDate)
+            val article = Article(id, title, body, regDate, updateDate)
             articles.add(article)
 
             println("$id 번 게시물이 등록되었습니다.")
@@ -62,14 +63,17 @@ data class Article(
     val id : Int,
     val title : String,
     val body : String,
-    val regDate : String
+    val regDate : String,
+    val updateDate : String
 ){
 
 }
 
-fun getRegDate() : String{
-    var now = LocalDateTime.now()
+object Util {
+    fun getRegDate(): String {
+        var now = LocalDateTime.now()
 
-    var Strnow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH시 mm분 ss초"))
-    return Strnow
+        var Strnow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH시 mm분 ss초"))
+        return Strnow
+    }
 }
