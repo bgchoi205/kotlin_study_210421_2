@@ -52,6 +52,23 @@ fun main() {
                 println("${article.id}/ ${article.regDate} / ${article.title}")
             }
         }
+        else if(command.startsWith("article delete ")){
+            val id = command.trim().split(" ")[2].toInt()
+            var articleToDel : Article? = null
+
+            for(article in articles){
+                if(article.id == id){
+                    articleToDel = article
+                }
+            }
+            if(articleToDel == null){
+                println("존재하지 않는 게시물 입니다.")
+                continue
+            }
+            articles.remove(articleToDel)
+            println("${id}번 게시물이 삭제되었습니다.")
+
+        }
 
     }
 
