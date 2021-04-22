@@ -70,9 +70,8 @@ fun main() {
         }
         else if(command.startsWith("article delete ")){
             val id = command.trim().split(" ")[2].toInt()
-            var articleToDel:Article? = null
 
-            articleToDel = getArticleById(id)
+            var articleToDel = getArticleById(id)
 
             if(articleToDel == null){
                 println("존재하지 않는 게시물 입니다.")
@@ -84,9 +83,8 @@ fun main() {
         }
         else if(command.startsWith("article modify ")){
             val id = command.trim().split(" ")[2].toInt()
-            var articleToMod:Article? = null
 
-            articleToMod = getArticleById(id)
+            var articleToMod = getArticleById(id)
 
             if(articleToMod == null){
                 println("${id}번 게시물은 존재하지 않습니다.")
@@ -100,6 +98,22 @@ fun main() {
             articleToMod.updateDate = Util.getRegDate()
 
             println("${id}번 게시물 수정이 완료되었습니다.")
+        }
+        else if(command.startsWith("article detail ")){
+            val id = command.trim().split(" ")[2].toInt()
+
+            var articleToDetail = getArticleById(id)
+
+            if(articleToDetail == null){
+                println("${id}번 게시물은 존재하지 않습니다.")
+                continue
+            }
+
+            println("번호 : ${articleToDetail.id}")
+            println("작성날짜 : ${articleToDetail.regDate}")
+            println("갱신날짜 : ${articleToDetail.updateDate}")
+            println("제목 : ${articleToDetail.title}")
+            println("내용 : ${articleToDetail.body}")
 
         }
 
