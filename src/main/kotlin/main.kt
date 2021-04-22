@@ -2,6 +2,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 var articles = mutableListOf<Article>()
+var lastId = 0
 
 fun getArticleById(id : Int):Article?{
     var articleToDel : Article? = null
@@ -14,30 +15,35 @@ fun getArticleById(id : Int):Article?{
         }
     }
     return null
-
 }
 
-/*
-명령어
--------------
-article write
-aa
-asdf
-article write
-qq
-qwer
-article write
-zz
-zxcv
-article list
+fun addArticle(title:String, body:String) : Int{
+    val id = lastId + 1
+    val regDate = Util.getRegDate()
+    val updateDate = Util.getRegDate()
 
- */
+    val article = Article(id, title, body, regDate, updateDate)
+    articles.add(article)
+    lastId = id
+
+    return id
+}
+
+fun makeTestArticles(){
+
+    for(i in 1..50){
+        val title = "제목 $i"
+        val body = "내용 $i"
+        addArticle(title, body)
+    }
+}
+
+
 
 fun main() {
     println("==프로그램 시작==")
-
-    var lastId = 0
-
+    println("테스트 데이터 생성")
+    makeTestArticles()
 
     while(true){
         print("명령어 입력 : ")
@@ -46,20 +52,15 @@ fun main() {
             break
         }
         else if(command == "article write"){
-            val id = lastId + 1
+
             print("제목 : ")
             val title = readLine()!!.trim()
             print("내용 : ")
             val body = readLine()!!.trim()
-            val regDate = Util.getRegDate()
-            val updateDate = Util.getRegDate()
-
-            val article = Article(id, title, body, regDate, updateDate)
-            articles.add(article)
+            val id = addArticle(title, body)
 
             println("$id 번 게시물이 등록되었습니다.")
 
-            lastId = id
         }
         else if(command == "article list"){
             println("번호 / 날짜 / 제목")
