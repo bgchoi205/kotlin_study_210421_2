@@ -3,6 +3,7 @@ import java.time.format.DateTimeFormatter
 
 var articles = mutableListOf<Article>()
 var lastId = 0
+val pageCount = 10
 
 fun getArticleById(id : Int):Article?{
     var articleToDel : Article? = null
@@ -38,6 +39,17 @@ fun makeTestArticles(){
     }
 }
 
+fun articlePageList(id : Int){
+    val fromIndex = (id - 1) * 10
+    val startIndex = articles.size - 1 - fromIndex
+    val endIndex = startIndex - 10 + 1
+
+    for(i in startIndex downTo endIndex){
+        println("번호 : ${articles[i].id} / 작성날짜 : ${articles[i].regDate} / 제목 : ${articles[i].title}")
+    }
+
+}
+
 
 
 fun main() {
@@ -62,12 +74,9 @@ fun main() {
             println("$id 번 게시물이 등록되었습니다.")
 
         }
-        else if(command == "article list"){
-            println("번호 / 날짜 / 제목")
-            for(article in articles){
-
-                println("${article.id}/ ${article.regDate} / ${article.title}")
-            }
+        else if(command.startsWith("article list ")){
+            val id = command.trim().split(" ")[2].toInt()
+            articlePageList(id)
         }
         else if(command.startsWith("article delete ")){
             val id = command.trim().split(" ")[2].toInt()
