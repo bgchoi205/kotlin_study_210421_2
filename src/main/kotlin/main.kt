@@ -1,6 +1,22 @@
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+var articles = mutableListOf<Article>()
+
+fun getArticleById(id : Int):Article?{
+    var articleToDel : Article? = null
+
+    for(article in articles){
+        if(article.id == id){
+            articleToDel = article
+            return articleToDel
+            continue
+        }
+    }
+    return null
+
+}
+
 /*
 명령어
 -------------
@@ -21,7 +37,7 @@ fun main() {
     println("==프로그램 시작==")
 
     var lastId = 0
-    var articles = mutableListOf<Article>()
+
 
     while(true){
         print("명령어 입력 : ")
@@ -54,19 +70,36 @@ fun main() {
         }
         else if(command.startsWith("article delete ")){
             val id = command.trim().split(" ")[2].toInt()
-            var articleToDel : Article? = null
+            var articleToDel:Article? = null
 
-            for(article in articles){
-                if(article.id == id){
-                    articleToDel = article
-                }
-            }
+            articleToDel = getArticleById(id)
+
             if(articleToDel == null){
                 println("존재하지 않는 게시물 입니다.")
                 continue
             }
             articles.remove(articleToDel)
             println("${id}번 게시물이 삭제되었습니다.")
+
+        }
+        else if(command.startsWith("article modify ")){
+            val id = command.trim().split(" ")[2].toInt()
+            var articleToMod:Article? = null
+
+            articleToMod = getArticleById(id)
+
+            if(articleToMod == null){
+                println("${id}번 게시물은 존재하지 않습니다.")
+                continue
+            }
+
+            print("새 제목 : ")
+            articleToMod.title = readLine()!!.trim()
+            print("새 내용 : ")
+            articleToMod.body = readLine()!!.trim()
+            articleToMod.updateDate = Util.getRegDate()
+
+            println("${id}번 게시물 수정이 완료되었습니다.")
 
         }
 
@@ -78,10 +111,10 @@ fun main() {
 
 data class Article(
     val id : Int,
-    val title : String,
-    val body : String,
+    var title : String,
+    var body : String,
     val regDate : String,
-    val updateDate : String
+    var updateDate : String
 ){
 
 }
